@@ -1,16 +1,23 @@
 // src/server.ts
-import app from "./app.js";
 import dotenv from "dotenv";
-import { prisma } from "./config/prisma.js";
 dotenv.config();
+
+import app from "./app.js";
 
 const port = process.env.PORT || 3000;
 
+// サーバー起動
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`🚀 Server running on port ${port}`);
 });
 
-process.on("SIGINT", async () => {
-  await prisma.$disconnect();
+// 終了処理（Prismaは不要なので削除済み）
+process.on("SIGINT", () => {
+  console.log("Server shutting down (SIGINT).");
+  process.exit(0);
+});
+
+process.on("SIGTERM", () => {
+  console.log("Server shutting down (SIGTERM).");
   process.exit(0);
 });
